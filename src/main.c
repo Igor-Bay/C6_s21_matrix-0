@@ -18,21 +18,21 @@ int main(void) {
   for (int i = 0; i < r; ++i)
     for (int j = 0; j < c; ++j) scanf("%lf", &M2.matrix[i][j]);
 
-  printf("\n");
-  s21_print_mtx(&M1);
-  printf("\n");
-  s21_print_mtx(&M2);
-  printf("\n");
+  // printf("\n");
+  // s21_print_mtx(&M1);
+  // printf("\n");
+  // s21_print_mtx(&M2);
+  // printf("\n");
 
-  error = s21_sum_matrix(&M1, &M2, &M3);
-
-  printf("%d\n", error);
+  error = s21_mult_matrix(&M1, &M2, &M3);
 
   if (!error) {
-    s21_print_mtx(&M3);
+    s21_print_mtx(&M2);
     s21_remove_matrix(&M1);
     s21_remove_matrix(&M2);
     s21_remove_matrix(&M3);
-  }
+  } else
+    printf("%d\n", error);
+
   return 0;
 }

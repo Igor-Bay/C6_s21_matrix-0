@@ -59,5 +59,6 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result);
 /*      === Helpers ===     */
 void s21_print_mtx(const matrix_t *A);
 int vldt_mtx(const matrix_t *M);
+int vldt_res(const matrix_t *M);
 int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result);
 int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result);

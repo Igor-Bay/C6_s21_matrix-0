@@ -11,8 +11,14 @@ void s21_print_mtx(const matrix_t *A) {
 int vldt_mtx(const matrix_t *M) {
   if (M == NULL) return INCORRECT_MATRIX;
 
-  if (M->matrix != NULL && (M->rows <= 0 || M->columns <= 0))
+  if (M->matrix == NULL || M->rows <= 0 || M->columns <= 0)
     return INCORRECT_MATRIX;
+
+  return OK;
+}
+
+int vldt_res(const matrix_t *M) {
+  if (M == NULL || M->matrix != NULL) return INCORRECT_MATRIX;
 
   return OK;
 }
@@ -22,7 +28,7 @@ int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
 
   res = vldt_mtx(A);
   if (!res) res = vldt_mtx(B);
-  if (!res) res = vldt_mtx(result);
+  if (!res) res = vldt_res(result);
 
   if (!res) {
     res = !(A->rows == B->rows && A->columns == B->columns);
@@ -37,7 +43,7 @@ int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
 
   res = vldt_mtx(A);
   if (!res) res = vldt_mtx(B);
-  if (!res) res = vldt_mtx(result);
+  if (!res) res = vldt_res(result);
 
   if (!res) {
     res = !(A->columns == B->rows);
@@ -46,4 +52,3 @@ int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
 
   return res;
 }
-
