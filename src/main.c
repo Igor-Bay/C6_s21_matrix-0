@@ -24,8 +24,7 @@ int main(void) {
   s21_print_mtx(&M2);
   printf("\n");
 
-  error = s21_mult_matrix(&M1, &M2, &M3);
-  printf("\n");
+  error = s21_sum_matrix(&M1, &M2, &M3);
 
   printf("%d\n", error);
 
