@@ -10,12 +10,13 @@
  * Autonomous non-profit organization «School 21» (ANO «School 21»).
  *
  * Redistribution and use of this file, its parts, or entire project
- * are permitted by confirmation of its original creators.
+ * are permitted by confirmation of its original creator.
  */
 /* ==========================================================================*/
 
 #pragma once
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -62,3 +63,11 @@ int vldt_mtx(const matrix_t *M);
 int vldt_res(const matrix_t *M);
 int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result);
 int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result);
+
+int vldt_det(const matrix_t *A, const double *result);
+
+void minor(const matrix_t *A, const size_t a_i, const size_t a_j,
+           matrix_t *res);
+void vldt_minor(const matrix_t *A, const size_t a_i, const size_t a_j,
+                const matrix_t *res);
+int vldt_comp(const matrix_t *A, const matrix_t *result);

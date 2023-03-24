@@ -18,37 +18,67 @@ int vldt_mtx(const matrix_t *M) {
 }
 
 int vldt_res(const matrix_t *M) {
-  if (M == NULL || M->matrix != NULL) return INCORRECT_MATRIX;
+  if (M == NULL) return INCORRECT_MATRIX;
 
   return OK;
 }
 
 int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
-  int res = OK;
+  int error = OK;
 
-  res = vldt_mtx(A);
-  if (!res) res = vldt_mtx(B);
-  if (!res) res = vldt_res(result);
+  error = vldt_mtx(A);
+  if (!error) error = vldt_mtx(B);
+  if (!error) error = vldt_res(result);
 
-  if (!res) {
-    res = !(A->rows == B->rows && A->columns == B->columns);
-    res = res ? CALCULATION_ERROR : OK;
-  }
+  if (!error && (A->rows != B->rows || A->columns != B->columns))
+    error = CALCULATION_ERROR;
 
-  return res;
+  return error;
 }
 
 int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
-  int res = OK;
+  int error = OK;
 
-  res = vldt_mtx(A);
-  if (!res) res = vldt_mtx(B);
-  if (!res) res = vldt_res(result);
+  error = vldt_mtx(A);
+  if (!error) error = vldt_mtx(B);
+  if (!error) error = vldt_res(result);
 
-  if (!res) {
-    res = !(A->columns == B->rows);
-    res = res ? CALCULATION_ERROR : OK;
+  if (!error && A->columns != B->rows) error = CALCULATION_ERROR;
+
+  return error;
+}
+
+int vldt_det(const matrix_t *A, const double *result) {
+  int error = vldt_mtx(A);
+  if (!error) error = result == NULL;
+  if (!error && A->rows != A->columns) error = CALCULATION_ERROR;
+
+  return error;
+}
+
+int vldt_comp(const matrix_t *A, const matrix_t *result) {
+  double dummy = 0.;
+  int error = vldt_det(A, &dummy);
+  if (!error && A->rows < 2) error = CALCULATION_ERROR;
+  if (!error) error = vldt_res(result);
+
+  return error;
+}
+
+void vldt_minor(const matrix_t *A, const size_t a_i, const size_t a_j,
+                const matrix_t *res) {
+  if (a_i >= (size_t)A->rows || a_j >= (size_t)A->columns) {
+    fprintf(stderr, "\nminor(...): A_I AND/OR A_J ARE OUT OF RANGE\nEXIT\n");
+    exit(1);
   }
 
-  return res;
+  if (vldt_mtx(A)) {
+    fprintf(stderr, "\nminor(...): INPUT MATRIX IS INVALID\nEXIT\n");
+    exit(1);
+  }
+
+  if (vldt_res(res)) {
+    fprintf(stderr, "\nminor(...): RES MATRIX IS INVALID\nEXIT\n");
+    exit(1);
+  }
 }
