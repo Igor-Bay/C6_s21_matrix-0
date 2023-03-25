@@ -1,3 +1,5 @@
+#include "s21_matrix_helpers.h"
+
 #include "../s21_matrix.h"
 
 int vldt_mtx(const matrix_t *M) {
@@ -9,18 +11,16 @@ int vldt_mtx(const matrix_t *M) {
   return OK;
 }
 
-int vldt_res(const matrix_t *M) {
-  if (M == NULL) return INCORRECT_MATRIX;
+int vldt_ABr(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
+  int error = result == NULL;
+  if (!error) error = vldt_mtx(A);
+  if (!error) error = vldt_mtx(B);
 
-  return OK;
+  return error;
 }
 
 int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
-  int error = OK;
-
-  error = vldt_res(result);
-  if (!error) error = vldt_mtx(A);
-  if (!error) error = vldt_mtx(B);
+  int error = vldt_ABr(A, B, result);
 
   if (!error && (A->rows != B->rows || A->columns != B->columns))
     error = CALCULATION_ERROR;
@@ -29,11 +29,7 @@ int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
 }
 
 int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
-  int error = OK;
-
-  error = vldt_res(result);
-  if (!error) error = vldt_mtx(A);
-  if (!error) error = vldt_mtx(B);
+  int error = vldt_ABr(A, B, result);
 
   if (!error && A->columns != B->rows) error = CALCULATION_ERROR;
 
@@ -49,8 +45,8 @@ int vldt_det(const matrix_t *A, const double *result) {
 }
 
 int vldt_comp(const matrix_t *A, const matrix_t *result) {
-  double dummy = 0.;
-  int error = vldt_res(result);
+  const double dummy = 0.;
+  int error = result == NULL;
   if (!error) error = vldt_det(A, &dummy);
 
   return error;

@@ -1,8 +1,9 @@
 #include "../s21_matrix.h"
+#include "s21_matrix_helpers.h"
 
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
-  int result = !(vldt_res(A));
-  if (result) result = !(vldt_res(B));
+  int result = !(A == NULL);
+  if (result) result = !(B == NULL);
   if (result) result = A->rows == B->rows && A->columns == B->columns;
 
   if (result)
@@ -40,7 +41,7 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
 }
 
 int s21_mult_number(matrix_t *A, double number, matrix_t *result) {
-  int error = vldt_res(result);
+  int error = result == NULL;
   if (!error) error = vldt_mtx(A);
 
   if (!error) {
@@ -68,7 +69,7 @@ int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
 }
 
 int s21_transpose(matrix_t *A, matrix_t *result) {
-  int error = vldt_res(result);
+  int error = result == NULL;
   if (!error) error = vldt_mtx(A);
 
   if (!error) {

@@ -11,7 +11,7 @@ endif
 
 GCOVFLAGS = -fprofile-arcs -ftest-coverage
 
-HEADERS=s21_matrix.h
+HEADERS=s21_matrix.h s21_matrix_functions/s21_matrix_helpers.h
 SOURCES=$(addprefix s21_matrix_functions/, s21_matrix_constructor.c s21_matrix_operations.c s21_matrix_determinant.c s21_matrix_helpers.c)
 OBJECTS=$(SOURCES:.c=.o)
 TESTS_SOURCES=test.c
