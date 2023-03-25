@@ -80,20 +80,20 @@ void minor(const matrix_t *A, const size_t a_i, const size_t a_j,
            matrix_t *res) {
   vldt_minor(A, a_i, a_j, res);
 
-  // if (A->rows > 1) {
-  s21_create_matrix(A->rows - 1, A->columns - 1, res);
+  if (A->rows > 1) {
+    s21_create_matrix(A->rows - 1, A->columns - 1, res);
 
-  for (size_t i = 0; i < (size_t)A->rows; ++i) {
-    if (i == a_i) continue;
+    for (size_t i = 0; i < (size_t)A->rows; ++i) {
+      if (i == a_i) continue;
 
-    for (size_t j = 0; j < (size_t)A->columns; ++j) {
-      if (j == a_j) continue;
+      for (size_t j = 0; j < (size_t)A->columns; ++j) {
+        if (j == a_j) continue;
 
-      res->matrix[i - (i > a_i)][j - (j > a_j)] = A->matrix[i][j];
+        res->matrix[i - (i > a_i)][j - (j > a_j)] = A->matrix[i][j];
+      }
     }
+  } else {
+    s21_create_matrix(A->rows, A->columns, res);
+    res->matrix[0][0] = 1;
   }
-  // } else {
-  //   s21_create_matrix(A->rows, A->columns, res);
-  //   res->matrix[0][0] = A->matrix[0][0];
-  // }
 }

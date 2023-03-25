@@ -80,3 +80,6 @@ fmt:
 
 cppcheck:
 	cppcheck --enable=all --suppress=missingIncludeSystem $(FILES_TO_CHECK)
+
+valgrind:
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./main.out

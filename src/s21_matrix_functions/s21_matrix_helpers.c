@@ -3,7 +3,7 @@
 void s21_print_mtx(const matrix_t *A) {
   for (int i = 0; i < A->rows; ++i)
     for (int j = 0; j < A->columns; ++j) {
-      printf("%.f", A->matrix[i][j]);
+      printf("%.2f", A->matrix[i][j]);
       printf("%c", j < A->columns - 1 ? ' ' : '\n');
     }
 }
@@ -59,7 +59,7 @@ int vldt_det(const matrix_t *A, const double *result) {
 int vldt_comp(const matrix_t *A, const matrix_t *result) {
   double dummy = 0.;
   int error = vldt_det(A, &dummy);
-  if (!error && A->rows < 2) error = CALCULATION_ERROR;
+  // if (!error && A->rows < 2) error = CALCULATION_ERROR;
   if (!error) error = vldt_res(result);
 
   return error;
