@@ -1,12 +1,14 @@
 #include "../s21_matrix.h"
 
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
-  int result = A->rows == B->rows && A->columns == B->columns;
+  int result = !(vldt_res(A));
+  if (result) result = !(vldt_res(B));
+  if (result) result = A->rows == B->rows && A->columns == B->columns;
 
   if (result)
     for (int i = 0; i < A->rows && result; ++i)
       for (int j = 0; j < A->columns && result; ++j)
-        result = (A->matrix)[i][j] == (B->matrix)[i][j];
+        result = fabs((A->matrix)[i][j] - (B->matrix)[i][j]) < EPS;
 
   return result;
 }
@@ -38,8 +40,8 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
 }
 
 int s21_mult_number(matrix_t *A, double number, matrix_t *result) {
-  int error = vldt_mtx(A);
-  if (!error) error = vldt_res(result);
+  int error = vldt_res(result);
+  if (!error) error = vldt_mtx(A);
 
   if (!error) {
     s21_create_matrix(A->rows, A->columns, result);
@@ -66,8 +68,8 @@ int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
 }
 
 int s21_transpose(matrix_t *A, matrix_t *result) {
-  int error = vldt_mtx(A);
-  if (!error) error = vldt_res(result);
+  int error = vldt_res(result);
+  if (!error) error = vldt_mtx(A);
 
   if (!error) {
     s21_create_matrix(A->columns, A->rows, result);

@@ -1,7 +1,6 @@
 #include "../s21_matrix.h"
 
 #define minus1_pow(x) ((x) % 2 ? -1 : 1)
-#define EPS 1e-7
 
 int s21_calc_complements(matrix_t *A, matrix_t *result) {
   int error = vldt_comp(A, result);
@@ -13,7 +12,7 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
         matrix_t mtx_min;
         double det = 0.;
 
-        minor(A, i, j, &mtx_min);
+        minor_mtx(A, i, j, &mtx_min);
         s21_determinant(&mtx_min, &det);
         result->matrix[i][j] = det * minus1_pow(i + j);
         s21_remove_matrix(&mtx_min);
@@ -40,7 +39,7 @@ int s21_determinant(matrix_t *A, double *result) {
         matrix_t mtx_min;
         double det_min = 0.;
 
-        minor(A, 0, i, &mtx_min);
+        minor_mtx(A, 0, i, &mtx_min);
         s21_determinant(&mtx_min, &det_min);
         *result += A->matrix[0][i] * det_min * minus1_pow(i);
         s21_remove_matrix(&mtx_min);
@@ -76,8 +75,8 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
   return error;
 }
 
-void minor(const matrix_t *A, const size_t a_i, const size_t a_j,
-           matrix_t *res) {
+void minor_mtx(const matrix_t *A, const size_t a_i, const size_t a_j,
+               matrix_t *res) {
   vldt_minor(A, a_i, a_j, res);
 
   if (A->rows > 1) {

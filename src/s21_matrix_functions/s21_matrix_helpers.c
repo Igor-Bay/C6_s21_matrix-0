@@ -26,9 +26,9 @@ int vldt_res(const matrix_t *M) {
 int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
   int error = OK;
 
-  error = vldt_mtx(A);
+  error = vldt_res(result);
+  if (!error) error = vldt_mtx(A);
   if (!error) error = vldt_mtx(B);
-  if (!error) error = vldt_res(result);
 
   if (!error && (A->rows != B->rows || A->columns != B->columns))
     error = CALCULATION_ERROR;
@@ -39,9 +39,9 @@ int vldt_sum(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
 int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
   int error = OK;
 
-  error = vldt_mtx(A);
+  error = vldt_res(result);
+  if (!error) error = vldt_mtx(A);
   if (!error) error = vldt_mtx(B);
-  if (!error) error = vldt_res(result);
 
   if (!error && A->columns != B->rows) error = CALCULATION_ERROR;
 
@@ -49,8 +49,8 @@ int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result) {
 }
 
 int vldt_det(const matrix_t *A, const double *result) {
-  int error = vldt_mtx(A);
-  if (!error) error = result == NULL;
+  int error = result == NULL;
+  if (!error) error = vldt_mtx(A);
   if (!error && A->rows != A->columns) error = CALCULATION_ERROR;
 
   return error;
@@ -58,9 +58,8 @@ int vldt_det(const matrix_t *A, const double *result) {
 
 int vldt_comp(const matrix_t *A, const matrix_t *result) {
   double dummy = 0.;
-  int error = vldt_det(A, &dummy);
-  // if (!error && A->rows < 2) error = CALCULATION_ERROR;
-  if (!error) error = vldt_res(result);
+  int error = vldt_res(result);
+  if (!error) error = vldt_det(A, &dummy);
 
   return error;
 }

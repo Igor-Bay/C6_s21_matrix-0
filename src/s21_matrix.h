@@ -22,6 +22,7 @@
 
 #define SUCCESS 1
 #define FAILURE 0
+#define EPS 1e-15
 
 typedef struct matrix_struct {
   double **matrix;
@@ -66,8 +67,8 @@ int vldt_m_mtx(const matrix_t *A, const matrix_t *B, const matrix_t *result);
 
 int vldt_det(const matrix_t *A, const double *result);
 
-void minor(const matrix_t *A, const size_t a_i, const size_t a_j,
-           matrix_t *res);
+void minor_mtx(const matrix_t *A, const size_t a_i, const size_t a_j,
+               matrix_t *res);
 void vldt_minor(const matrix_t *A, const size_t a_i, const size_t a_j,
                 const matrix_t *res);
 int vldt_comp(const matrix_t *A, const matrix_t *result);

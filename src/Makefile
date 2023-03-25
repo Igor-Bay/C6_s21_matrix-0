@@ -14,8 +14,8 @@ GCOVFLAGS = -fprofile-arcs -ftest-coverage
 HEADERS=s21_matrix.h
 SOURCES=$(addprefix s21_matrix_functions/, s21_matrix_constructor.c s21_matrix_operations.c s21_matrix_determinant.c s21_matrix_helpers.c)
 OBJECTS=$(SOURCES:.c=.o)
-TESTS_SOURCES=$(addprefix tests/, main_test.c)
-TESTS_FUNCTIONS=$(addprefix tests/, lorenttr_test.c)
+TESTS_SOURCES=test.c
+# TESTS_FUNCTIONS=$(addprefix tests/, lorenttr_test.c)
 
 FILES_TO_CHECK=$(shell find . -name '*.c' && find . -name '*.h' )
 
@@ -66,7 +66,7 @@ rebuild: clean all
 
 main: clean s21_matrix.a
 	@[[ ! -z "$(MAINFILE)" ]] || (echo 'define MAIN env variable!' && exit 1)
-	$(CC) -o main.out -g $(BUILDFLAGS) $(MAINFILE).c s21_matrix.a  
+	$(CC) -o main.out -g $(BUILDFLAGS) ./mainfiles/$(MAINFILE).c s21_matrix.a  
 
 clean: 
 	@rm -rf  $(OBJECTS)
@@ -82,4 +82,6 @@ cppcheck:
 	cppcheck --enable=all --suppress=missingIncludeSystem $(FILES_TO_CHECK)
 
 valgrind:
+ifeq ($(shell uname -s),Linux)
 	valgrind --tool=memcheck --leak-check=full --track-origins=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./main.out
+endif
