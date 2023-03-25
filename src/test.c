@@ -43,9 +43,8 @@ START_TEST(remove_m) {
 
   err = s21_create_matrix(3, 3, &matrix_r);
   s21_remove_matrix(&matrix_r);
-  if (matrix_r.matrix != NULL) {
-    err = INCORRECT_MATRIX;
-  }
+  if (matrix_r.matrix != NULL) err = INCORRECT_MATRIX;
+
   ck_assert_int_eq(err, OK);
 }
 END_TEST
@@ -498,7 +497,7 @@ END_TEST
 START_TEST(determinant) {
   matrix_t M1;
   s21_create_matrix(3, 2, &M1);
-  double result;
+  double result = 0.;
   int err = 0;
 
   err = s21_determinant(NULL, &result);
@@ -520,7 +519,7 @@ START_TEST(determinant) {
 
   err = s21_determinant(&M1, &result);
   ck_assert_int_eq(OK, err);
-  ck_assert_int_eq(1, result == -36);
+  ck_assert_double_eq(result, -36);
 
   s21_create_matrix(2, 2, &M1);
   M1.matrix[0][0] = 2;
@@ -530,12 +529,19 @@ START_TEST(determinant) {
 
   err = s21_determinant(&M1, &result);
   ck_assert_int_eq(OK, err);
-  ck_assert_int_eq(1, result == -13);
+  ck_assert_double_eq(result, -13);
 
   M1.rows = -1;
   err = s21_determinant(&M1, &result);
   ck_assert_int_eq(INCORRECT_MATRIX, err);
 
+  s21_remove_matrix(&M1);
+
+  s21_create_matrix(1, 1, &M1);
+  M1.matrix[0][0] = 7;
+  err = s21_determinant(&M1, &result);
+  ck_assert_int_eq(OK, err);
+  ck_assert_double_eq(result, 7);
   s21_remove_matrix(&M1);
 }
 END_TEST
@@ -588,6 +594,20 @@ START_TEST(calc_complements) {
   M1.rows = -3;
   err = s21_calc_complements(&M1, &result);
   ck_assert_int_eq(INCORRECT_MATRIX, err);
+
+  s21_remove_matrix(&M1);
+  s21_remove_matrix(&result);
+  s21_remove_matrix(&correct_res);
+
+  s21_create_matrix(1, 1, &M1);
+  s21_create_matrix(1, 1, &correct_res);
+
+  M1.matrix[0][0] = 7;
+  correct_res.matrix[0][0] = 1;
+  err = s21_calc_complements(&M1, &result);
+  ck_assert_int_eq(OK, err);
+  err = s21_eq_matrix(&result, &correct_res);
+  ck_assert_int_eq(SUCCESS, err);
 
   s21_remove_matrix(&M1);
   s21_remove_matrix(&result);
@@ -649,6 +669,20 @@ START_TEST(inverse_matrix) {
   M1.rows = -2;
   err = s21_inverse_matrix(&M1, &result);
   ck_assert_int_eq(INCORRECT_MATRIX, err);
+
+  s21_remove_matrix(&M1);
+  s21_remove_matrix(&result);
+  s21_remove_matrix(&correct_res);
+
+  s21_create_matrix(1, 1, &M1);
+  s21_create_matrix(1, 1, &correct_res);
+
+  M1.matrix[0][0] = 0.2;
+  correct_res.matrix[0][0] = 5;
+  err = s21_inverse_matrix(&M1, &result);
+  ck_assert_int_eq(OK, err);
+  err = s21_eq_matrix(&result, &correct_res);
+  ck_assert_int_eq(SUCCESS, err);
 
   s21_remove_matrix(&M1);
   s21_remove_matrix(&result);

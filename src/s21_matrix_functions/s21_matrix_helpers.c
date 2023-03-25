@@ -1,13 +1,5 @@
 #include "../s21_matrix.h"
 
-void s21_print_mtx(const matrix_t *A) {
-  for (int i = 0; i < A->rows; ++i)
-    for (int j = 0; j < A->columns; ++j) {
-      printf("%.2f", A->matrix[i][j]);
-      printf("%c", j < A->columns - 1 ? ' ' : '\n');
-    }
-}
-
 int vldt_mtx(const matrix_t *M) {
   if (M == NULL) return INCORRECT_MATRIX;
 
@@ -64,6 +56,8 @@ int vldt_comp(const matrix_t *A, const matrix_t *result) {
   return error;
 }
 
+/*      === Debugging Helpers ===     */
+/*
 void vldt_minor(const matrix_t *A, const size_t a_i, const size_t a_j,
                 const matrix_t *res) {
   if (a_i >= (size_t)A->rows || a_j >= (size_t)A->columns) {
@@ -81,3 +75,12 @@ void vldt_minor(const matrix_t *A, const size_t a_i, const size_t a_j,
     exit(1);
   }
 }
+
+void s21_print_mtx(const matrix_t *A) {
+  for (int i = 0; i < A->rows; ++i)
+    for (int j = 0; j < A->columns; ++j) {
+      printf("%.2f", A->matrix[i][j]);
+      printf("%c", j < A->columns - 1 ? ' ' : '\n');
+    }
+}
+*/

@@ -18,7 +18,7 @@ int main(void) {
     s21_print_mtx(&M2);
     s21_remove_matrix(&M2);
   } else {
-    printf("%d %d\n", error1, error2);
+    fprintf(stderr, "ERRORS: %d %d\n", error1, error2);
     if (!error1) s21_remove_matrix(&M1);
   }
 

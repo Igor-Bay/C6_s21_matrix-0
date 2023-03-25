@@ -17,7 +17,7 @@ int main(void) {
     if (!error)
       printf("%f\n", res);
     else
-      printf("%d\n", error);
+      fprintf(stderr, "ERROR: %d\n", error);
 
     s21_remove_matrix(&M1);
   }

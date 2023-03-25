@@ -77,7 +77,7 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
 
 void minor_mtx(const matrix_t *A, const size_t a_i, const size_t a_j,
                matrix_t *res) {
-  vldt_minor(A, a_i, a_j, res);
+  // vldt_minor(A, a_i, a_j, res);  Debugging
 
   if (A->rows > 1) {
     s21_create_matrix(A->rows - 1, A->columns - 1, res);
